@@ -231,14 +231,14 @@ export const signTxWithHardwareWallet = (type, derivationPath, txParams, isMocki
   return new Promise((resolve, reject) => {
     let hwPromise
     switch (type) {
-      case 'ledger':
-        hwPromise = signWithLedger(derivationPath, txParams)
-        break
-      case 'trezor':
-        hwPromise = signWithTrezor(derivationPath, txParams)
-        break
-      default:
-        hwPromise = Promise.reject(new Error('unsupported hardware wallet'))
+    case 'ledger':
+      hwPromise = signWithLedger(derivationPath, txParams)
+      break
+    case 'trezor':
+      hwPromise = signWithTrezor(derivationPath, txParams)
+      break
+    default:
+      hwPromise = Promise.reject(new Error('unsupported hardware wallet'))
     }
     hwPromise.then((result) => {
       const signedTx = new EthereumjsTx(Object.assign({}, txParams, result)).serialize().toString('hex')
@@ -252,8 +252,8 @@ export const sendSignedTransaction = (signedTx) => {
   return window.faast.web3.eth.sendSignedTransaction(addHexPrefix(signedTx))
 }
 
-export const sendTransaction = (txObject, cb) => {
-  return window.faast.web3.eth.sendTransaction(txObject, cb)
+export const sendTransaction = (txObject) => {
+  return window.faast.web3.eth.sendTransaction(txObject)
 }
 
 export const closeTrezorWindow = () => {

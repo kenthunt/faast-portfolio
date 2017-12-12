@@ -1,25 +1,33 @@
 {
   "name": "faast-portfolio",
-  "version": "1.0.0",
+  "version": "1.1.2",
   "description": "portfolio app for faa.st",
   "main": "dist/bundle.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "serve dist --cors --open",
     "build-webpack": "cross-env NODE_ENV=production webpack --progress --profile",
-    "lint": "standard --verbose",
+    "lint": "eslint src/",
     "build": "npm run lint && npm run build-webpack",
+    "preversion": "git checkout develop",
+    "version": "npm run build && git add -A dist",
+    "postversion": "git push && git checkout master && git merge develop && git push && git push --tags && git checkout develop",
     "dev-server": "cross-env WEBPACK_PORT=8080 webpack-dev-server",
     "dev": "concurrently --kill-others \"serve dist --cors\" \"npm run dev-server\""
   },
   "author": "Nathan Wood <nathan@bitaccess.co>",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/go-faast/faast-portfolio.git"
+  },
   "dependencies": {
     "serve": "^6.0.6"
   },
   "devDependencies": {
     "accounting": "^0.4.1",
     "babel-core": "^6.26.0",
+    "babel-eslint": "^8.0.3",
     "babel-loader": "^7.1.2",
     "babel-preset-env": "^1.6.1",
     "babel-preset-react": "^6.24.1",
@@ -28,6 +36,8 @@
     "concurrently": "^3.5.0",
     "cross-env": "^5.0.5",
     "css-loader": "^0.28.7",
+    "eslint": "^3.19.0",
+    "eslint-plugin-react": "^7.5.1",
     "ethereumjs-tx": "^1.3.3",
     "ethereumjs-util": "^5.1.2",
     "ethereumjs-wallet": "^0.6.0",
